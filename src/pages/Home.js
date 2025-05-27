@@ -15,7 +15,7 @@ const Home = () => {
   const data = useSelector((state) => state.blockchain.value);
 
   const [info, setInfo] = useState({
-    destination: "New York",
+    destination: "Cape Town",
     checkIn: new Date(),
     checkOut: new Date(),
     guests: 2,
