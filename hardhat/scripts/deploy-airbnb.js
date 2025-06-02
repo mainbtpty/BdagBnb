@@ -3,45 +3,36 @@ const fs = require("fs");
 const fse = require("fs-extra");
 const { verify } = require("../utils/verify");
 
-const LOCAL_NETWORKS = ["localhost", "ganache"];
+// Include "blockdag" in the list of networks where the mock should be deployed
+const LOCAL_NETWORKS = ["localhost", "ganache", "blockdag"];
 
 async function deployMock() {
   const DECIMALS = "8";
   const INITIAL_PRICE = "200000000000";
 
   const Mock = await hre.ethers.getContractFactory("MockV3Aggregator");
-
   console.log("Deploying price feed mock");
   const mockContract = await Mock.deploy(DECIMALS, INITIAL_PRICE);
-
   await mockContract.deployed();
   console.log("Price feed mock deployed to:", mockContract.address);
-
   return mockContract.address;
 }
 
 async function main() {
-  /* these two lines deploy the contract to the network */
   let listingFee = hre.ethers.utils.parseEther("0.001", "ether");
   var priceFeedAddress;
   if (LOCAL_NETWORKS.includes(hre.network.name)) {
     priceFeedAddress = await deployMock();
   }
-  // For deploying to polygon mainnet or testnet
-  // const priceFeedAddress = ""
+  // For deploying to polygon mainnet or testnet, uncomment and set a valid address
+  // const priceFeedAddress = "0xSomeRealPriceFeedAddress"
 
-  const DecentralAirbnb = await hre.ethers.getContractFactory(
-    "DecentralAirbnb"
-  );
-  const airbnbContract = await DecentralAirbnb.deploy(
-    listingFee,
-    priceFeedAddress
-  );
+  const DecentralAirbnb = await hre.ethers.getContractFactory("DecentralAirbnb");
+  const airbnbContract = await DecentralAirbnb.deploy(listingFee, priceFeedAddress);
   await airbnbContract.deployed();
   console.log("Decentral Airbnb deployed to:", airbnbContract.address);
   console.log("Network deployed to :", hre.network.name);
 
-  /* transfer contracts addresses & ABIs to the front-end */
   if (fs.existsSync("../src")) {
     fs.rmSync("../src/artifacts", { recursive: true, force: true });
     fse.copySync("./artifacts/contracts", "../src/artifacts");
