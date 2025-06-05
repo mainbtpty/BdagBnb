@@ -12829,7 +12829,7 @@ web3.storage@^4.4.0:
     uint8arrays "^3.0.0"
     w3name "^1.0.6"
 
-web3modal@^2.4.1:
+web3modal@^1.9.7:
   version "1.9.12"
   resolved "https://registry.yarnpkg.com/web3modal/-/web3modal-1.9.12.tgz#cb000888fa422a96e3df552d4784e347ba35efcc"
   integrity sha512-RiLY2tNOEUCobtsMTmhwl/FoHZGxRZz7SSdLsh6qbbybPNUO0rFPY8xam9SpPwlLd2cUDGiWkLgDUJde0sHxdw==
