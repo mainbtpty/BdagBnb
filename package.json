@@ -30,7 +30,7 @@
     "redux-persist": "^6.0.0",
     "styled-components": "^6.1.13",
     "web-vitals": "^4.2.3",
-    "web3.storage": "^4.6.0",
+    "web3.storage": "^4.4.0",
     "web3modal": "^2.4.1"
   },
   "scripts": {
