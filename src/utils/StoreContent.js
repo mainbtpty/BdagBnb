@@ -1,19 +1,16 @@
-import { Web3Storage } from "web3.storage";
-
-const web3storage_key = "YOUR-WEB3.STORAGE-API-TOKEN";
-
-function GetAccessToken() {
-  return web3storage_key;
-}
-
-function MakeStorageClient() {
-  return new Web3Storage({ token: GetAccessToken() });
-}
+import Moralis from 'moralis';
 
 export const StoreContent = async (files) => {
-  console.log("Uploading files to IPFS with web3.storage....");
-  const client = MakeStorageClient();
-  const cid = await client.put([files]);
-  console.log("Stored files with cid:", cid);
-  return cid;
+  console.log("Uploading files to IPFS with Moralis....");
+  
+  try {
+    const file = new Moralis.File(files.name, files);
+    await file.saveIPFS();
+    const ipfsUrl = file.ipfs();
+    console.log("Stored file with IPFS URL:", ipfsUrl);
+    return ipfsUrl;
+  } catch (error) {
+    console.error("Error uploading to IPFS:", error);
+    throw error;
+  }
 };
